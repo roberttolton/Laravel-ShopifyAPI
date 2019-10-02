@@ -15,6 +15,8 @@ class ShopifyAuth extends AbstractProvider
 
     protected $adminPath = "/admin/";
 
+    protected $apiVersion = "";
+
     protected $requestPath;
 
     protected $responseHeaders;
@@ -34,6 +36,20 @@ class ShopifyAuth extends AbstractProvider
     }
 
     /**
+     * Set the API version.
+     * eg. 2019-04
+     *
+     * @param Request $shopURL
+     * @return $this
+     */
+    public function setApiVersion($apiVersion)
+    {
+        $this->apiVersion = $apiVersion;
+
+        return $this;
+    }
+
+    /**
      * Get the API request path
      *
      * @return string
@@ -41,7 +57,7 @@ class ShopifyAuth extends AbstractProvider
     public function requestPath()
     {
         if($this->shopURL != null)
-            $this->requestPath = 'https://' . $this->shopURL . $this->adminPath;
+            $this->requestPath = 'https://' . $this->shopURL . $this->adminPath . ( $this->apiVersion != '' ? 'api/' . $this->apiVersion . '/' : '' );
 
         return $this->requestPath;
     }
@@ -138,4 +154,4 @@ class ShopifyAuth extends AbstractProvider
         return $authUrl;
     }
 
-}
+}

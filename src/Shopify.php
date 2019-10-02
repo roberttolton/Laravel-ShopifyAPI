@@ -36,12 +36,13 @@ class Shopify implements ShopifyContract
     /**
      * Set the shop Url and request Path, for the first time installation
      *
-     * @param String $shopURL
-     * @param Array $scope
+     * @param string $shopURL
+     * @param array $scope
+     * @param string $apiVersion
      *
      * @return $this
      */
-    public function make($shopURL, array $scope)
+    public function make($shopURL, array $scope, $apiVersion='')
     {
 
         $allScope = $this->getAllScopes();
@@ -50,7 +51,7 @@ class Shopify implements ShopifyContract
             throw New InvalidArgumentException( 'invalid Scope' );
         }
 
-        $this->apiCall = $this->shopifyAuth->stateless()->setShopURL( $shopURL )->scopes( $scope );
+        $this->apiCall = $this->shopifyAuth->stateless()->setShopURL( $shopURL )->setApiVersion( $apiVersion )->scopes( $scope );
 
         $this->requestPath = $this->shopifyAuth->requestPath();
 
@@ -66,11 +67,13 @@ class Shopify implements ShopifyContract
      *
      * @param $shopURL
      * @param $token
+     * @param String $apiVersion
+     *
      * @return $this
      */
-    public function retrieve($shopURL, $token)
+    public function retrieve($shopURL, $token, $apiVersion='')
     {
-        $this->apiCall = $this->shopifyAuth->stateless()->setShopURL( $shopURL );
+        $this->apiCall = $this->shopifyAuth->stateless()->setShopURL( $shopURL )->setApiVersion( $apiVersion );
 
         $this->requestPath = $this->shopifyAuth->requestPath();
 
